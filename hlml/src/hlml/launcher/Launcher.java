@@ -1,6 +1,7 @@
 package hlml.launcher;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -39,6 +40,7 @@ final class Launcher implements Callable<Integer> {
   @Override
   public Integer call() {
     try {
+      if (includes == null) { includes = new ArrayList<>(); }
       includes.add(0, Path.of("."));
       Subject subject = Subject.of("compiler");
       Semantic.Target target =
