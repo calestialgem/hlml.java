@@ -53,8 +53,9 @@ A source name (without the file extension) must be passed to the compiler. Then
 it will search in the list of include directories in the order they were given
 and compile the source to the given output file.
 
-To set the path to the output file, use the `-o <path>` option. By default this
-would be `a.mlog` if it is not given.
+To set the path to the output file, use the `-o <path>` option. If an output is
+not given, the compiler only validates the target source's semantics. If an
+output path is given, the source must have an `entrypoint` declaration.
 
 To add the path to an include directory, use the `-I <path>` option, which can
 be given multiple times to create a list of include directories. By default this
