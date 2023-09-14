@@ -85,8 +85,7 @@ public final class Resolver {
     String representation_name,
     Object representation)
   {
-    if (artifacts.isEmpty())
-      return;
+    if (artifacts.isEmpty()) { return; }
     Path representation_path =
       artifacts
         .get()

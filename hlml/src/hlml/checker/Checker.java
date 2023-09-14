@@ -67,7 +67,7 @@ public final class Checker {
 
   /** Checks the target. */
   private Semantic.Target check() {
-    if (artifacts.isPresent())
+    if (artifacts.isPresent()) {
       try {
         Files.createDirectories(artifacts.get());
       }
@@ -77,6 +77,7 @@ public final class Checker {
           .to_diagnostic("failure", "Could not create the artifact directory!")
           .to_exception(cause);
       }
+    }
     builtins = new HashSet<>();
     builtins.add(new Semantic.BuiltinKeyword(new Semantic.KnownFalse()));
     builtins.add(new Semantic.BuiltinKeyword(new Semantic.KnownTrue()));

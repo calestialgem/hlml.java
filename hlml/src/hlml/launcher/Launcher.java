@@ -43,8 +43,9 @@ final class Launcher implements Callable<Integer> {
       Subject subject = Subject.of("compiler");
       Semantic.Target target =
         Checker.check(subject, includes, name, Optional.empty());
-      if (output_path.isPresent())
+      if (output_path.isPresent()) {
         Builder.build(subject, output_path.get(), target);
+      }
       return 0;
     }
     catch (Throwable cause) {
