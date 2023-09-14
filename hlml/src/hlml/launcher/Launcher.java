@@ -27,9 +27,8 @@ final class Launcher implements Callable<Integer> {
 
   @Option(
     names = "-o",
-    defaultValue = "a.mlog",
     description = "File the compiled instructions will be saved to.")
-  private Path output_path;
+  private Optional<Path> output_path;
 
   @Option(names = "-I", description = "A directory to look for source files.")
   private List<Path> includes;
@@ -44,7 +43,8 @@ final class Launcher implements Callable<Integer> {
       Subject subject = Subject.of("compiler");
       Semantic.Target target =
         Checker.check(subject, includes, name, Optional.empty());
-      Builder.build(subject, output_path, target);
+      if (output_path.isPresent())
+        Builder.build(subject, output_path.get(), target);
       return 0;
     }
     catch (Throwable cause) {
