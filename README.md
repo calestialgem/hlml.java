@@ -99,6 +99,11 @@ would be cleanly separated into that directory.
 And libraries or code you get from others can be put here and simply used by
 your code.
 
+Also you can setup VS Code to show you error locations directly in the source
+file. Look at
+[my Mindustry logic setup](https://github.com/calestialgem/mindustry_logic) for
+an example.
+
 ## License
 
 Licensed under GPL 3.0 or later.
