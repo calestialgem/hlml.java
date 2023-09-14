@@ -72,3 +72,9 @@ public const degrees_to_radians = 0.017453292519943295;
 ## [radians_to_degrees] can provide more optimized code as its value is known by
 ## the compiler.
 public const radians_to_degrees = 57.29577951308232;
+
+## Numeric constant that is the maximum, positive value.
+public const max_number = 0x1.ffff_ffff_ffff_fP+1023;
+
+## Numeric constant that is the minimum, positive value.
+public const min_number = 0x0.0000_0000_0000_1P-1022;
