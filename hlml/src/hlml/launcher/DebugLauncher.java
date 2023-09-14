@@ -52,7 +52,8 @@ final class DebugLauncher {
     artifacts = tests.resolve("artifacts");
     executables = tests.resolve("executables");
     libraries = tests.resolve("libraries");
-    includes = List.of(executables, libraries);
+    includes =
+      List.of(Path.of("."), executables, libraries, Path.of("release"));
   }
 
   private void launch(Option option) {

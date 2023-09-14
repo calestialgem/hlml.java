@@ -31,10 +31,7 @@ final class Launcher implements Callable<Integer> {
     description = "File the compiled instructions will be saved to.")
   private Path output_path;
 
-  @Option(
-    names = "-I",
-    defaultValue = ".",
-    description = "A directory to look for source files.")
+  @Option(names = "-I", description = "A directory to look for source files.")
   private List<Path> includes;
 
   @Parameters(description = "Name of the compiled source.")
@@ -43,6 +40,7 @@ final class Launcher implements Callable<Integer> {
   @Override
   public Integer call() {
     try {
+      includes.add(0, Path.of("."));
       Subject subject = Subject.of("compiler");
       Semantic.Target target =
         Checker.check(subject, includes, name, Optional.empty());
