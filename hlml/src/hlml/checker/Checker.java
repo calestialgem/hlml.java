@@ -705,6 +705,14 @@ public final class Checker {
     builtin_constant("unitCount");
     builtin_constant("itemCount");
     builtin_constant("liquidCount");
+    builtin_constant("unit");
+    builtin_constant("unitCount");
+    builtin_constant("player");
+    builtin_constant("playerCount");
+    builtin_constant("core");
+    builtin_constant("coreCount");
+    builtin_constant("build");
+    builtin_constant("buildCount");
     builtin_procedure("read", 3);
     builtin_procedure("write", 3);
     builtin_procedure("draw", "clear", 3);
