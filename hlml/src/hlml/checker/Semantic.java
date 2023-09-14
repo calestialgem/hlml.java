@@ -41,6 +41,21 @@ public sealed interface Semantic {
     Name name();
   }
 
+  /** Definition of a built-in symbol. */
+  sealed interface Builtin extends Definition {
+    /** Identifier of the built-in. */
+    String identifier();
+
+    @Override
+    default boolean visible() { return true; }
+
+    @Override
+    default Name name() { return new Name("mlog", identifier()); }
+
+    @Override
+    default Set<Name> dependencies() { return Set.of(); }
+  }
+
   /** Defining a symbol as building linked to the processor. */
   record Link(boolean visible, Name name, String building)
     implements Definition
@@ -84,17 +99,8 @@ public sealed interface Semantic {
   record BuiltinProcedure(
     String identifier,
     String instruction_text,
-    int parameter_count) implements Procedure
-  {
-    @Override
-    public boolean visible() { return true; }
-
-    @Override
-    public Name name() { return new Name(built_in_scope, identifier); }
-
-    @Override
-    public Set<Name> dependencies() { return Set.of(); }
-  }
+    int parameter_count) implements Builtin, Procedure
+  {}
 
   /** Procedures that directly map to instructions with a dummy argument at the
    * second place. */
@@ -102,51 +108,33 @@ public sealed interface Semantic {
     String identifier,
     String instruction_text,
     String dummy_argument,
-    int parameter_count) implements Procedure
-  {
-    @Override
-    public boolean visible() { return true; }
-
-    @Override
-    public Name name() { return new Name(built_in_scope, identifier); }
-
-    @Override
-    public Set<Name> dependencies() { return Set.of(); }
-  }
+    int parameter_count) implements Builtin, Procedure
+  {}
 
   /** Definition of a constant. */
   sealed interface Constant extends Definition {
     /** Value of the constant. */
     Known value();
-
-    @Override
-    default Set<Name> dependencies() { return Set.of(); }
   }
 
   /** Constants that are defined by the user. */
   record UserDefinedConstant(boolean visible, Name name, Known value)
     implements Constant
-  {}
+  {
+    @Override
+    public Set<Name> dependencies() { return Set.of(); }
+  }
 
   /** Constants that directly map to a processor keyword. */
-  record BuiltinKeyword(KnownKeyword value) implements Constant {
+  record BuiltinKeyword(KnownKeyword value) implements Builtin, Constant {
     @Override
-    public boolean visible() { return true; }
-
-    @Override
-    public Name name() { return new Name(built_in_scope, value.keyword()); }
+    public String identifier() { return value.keyword(); }
   }
 
   /** Constants that directly map to a processors variables. */
   record BuiltinConstant(String identifier, KnownBuiltin value)
-    implements Constant
-  {
-    @Override
-    public boolean visible() { return true; }
-
-    @Override
-    public Name name() { return new Name(built_in_scope, identifier); }
-  }
+    implements Builtin, Constant
+  {}
 
   /** Definition of a global variable. */
   record GlobalVar(

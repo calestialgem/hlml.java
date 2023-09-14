@@ -3,6 +3,7 @@ package hlml.checker;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +45,7 @@ public final class Checker {
   private final String name;
 
   /** Definitions that are not user-made. */
-  private Set<Semantic.Definition> builtins = new HashSet<>();
+  private Set<Semantic.Builtin> builtins = new HashSet<>();
 
   /** Checked sources depended on by the target. */
   private Map<String, Semantic.Source> sources;
@@ -892,11 +893,74 @@ public final class Checker {
     check_source(subject, name);
     Semantic.Target target = new Semantic.Target(name, sources);
     if (artifacts.isPresent()) {
+      Path builtin_variable_path =
+        artifacts.get().resolve("builtin.variable.hlml");
+      Path builtin_procedure_path =
+        artifacts.get().resolve("builtin.procedure.hlml");
       Path target_artifact_path =
         artifacts
           .get()
           .resolve("%s.%s%s".formatted(name, "target", Source.extension));
-      try {
+      try (
+        Formatter vf =
+          new Formatter(Files.newBufferedWriter(builtin_variable_path));
+        Formatter pf =
+          new Formatter(Files.newBufferedWriter(builtin_procedure_path)))
+      {
+        for (Semantic.Builtin builtin : builtins
+          .stream()
+          .sorted((b1, b2) -> b1.identifier().compareTo(b2.identifier()))
+          .toList())
+        {
+          switch (builtin) {
+            case Semantic.BuiltinKeyword b ->
+              vf.format("%-28s # %s%n", b.identifier(), b.value().keyword());
+            case Semantic.BuiltinConstant b ->
+              vf.format("%-28s # @%s%n", b.identifier(), b.value().name());
+            case Semantic.BuiltinProcedure b -> {
+              StringBuilder call = new StringBuilder();
+              call.append(b.identifier());
+              call.append('(');
+              if (b.parameter_count() != 0) {
+                call.append("a0");
+                for (int i = 1; i < b.parameter_count(); i++) {
+                  call.append(", a");
+                  call.append(i);
+                }
+              }
+              call.append(')');
+              pf.format("%-50s", call);
+              pf.format(" # %s", b.instruction_text());
+              for (int i = 0; i < b.parameter_count(); i++) {
+                pf.format(" a%d", i);
+              }
+              pf.format("%n");
+            }
+            case Semantic.BuiltinProcedureWithDummy b -> {
+              StringBuilder call = new StringBuilder();
+              call.append(b.identifier());
+              call.append('(');
+              if (b.parameter_count() != 0) {
+                call.append("a0");
+                for (int i = 1; i < b.parameter_count(); i++) {
+                  call.append(", a");
+                  call.append(i);
+                }
+              }
+              call.append(')');
+              pf.format("%-50s", call);
+              pf
+                .format(
+                  " # %s a0 %s",
+                  b.instruction_text(),
+                  b.dummy_argument());
+              for (int i = 1; i < b.parameter_count(); i++) {
+                pf.format(" a%d", i);
+              }
+              pf.format("%n");
+            }
+          }
+        }
         Files.writeString(target_artifact_path, target.toString());
       }
       catch (IOException cause) {
