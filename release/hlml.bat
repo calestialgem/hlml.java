@@ -1,1 +1,1 @@
-java -jar --enable-preview hlml.jar %*
+java -jar --enable-preview "%~dp0\hlml.jar" %*
