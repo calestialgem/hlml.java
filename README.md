@@ -4,7 +4,7 @@ Compiler for the [HLML](https://github.com/calestialgem/hlml) written in Java.
 
 ## Requirements
 
-Requires a JVM for **Java 22** with preview features enabled to run.
+Requires a JVM for **Java 20** with preview features enabled to run.
 
 Optionally for Windows, the JVM should be on the path to use the released
 `hlml.bat` as is. If that is not the case, edit the released `hlml.bat` by
@@ -33,12 +33,12 @@ Invoke the JVM by passing the released `hlml.jar` with `--enable-preview` flag.
 Command line arguments can be passed to the compiler through that same command.
 
 Assuming `my_downloads` is the path to the downloaded files and `java` is the
-path to the installed Java 22 JVM executable:
+path to the installed Java 20 JVM executable:
 
 `java -jar --enable-preview my_downloads/hlml.jar [OPTIONS] <argument>`
 
 For Windows, there is the released `hlml.bat`, which can be used to invoke (if
-`java` can be invoked as a command to reach the installed Java 22 JVM):
+`java` can be invoked as a command to reach the installed Java 20 JVM):
 
 `my_downloads/hlml [OPTIONS] <argument>`
 
