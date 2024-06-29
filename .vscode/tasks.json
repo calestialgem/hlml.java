@@ -6,7 +6,6 @@
       "label": "Build JAR",
       "mainClass": "hlml/hlml.launcher.Launcher",
       "targetPath": "${workspaceFolder}/release/hlml.jar",
-      "options": { "shell": { "args": ["--enable-preview"] } },
       "group": {
         "kind": "build",
         "isDefault": true
