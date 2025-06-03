@@ -18,7 +18,7 @@ mkdir "%releaseDirectory%\build"
 for /r %sourceDirectory% %%i in (*) do (
     set sourceFiles=!sourceFiles! %%i
 )
-javac -d "%releaseDirectory%\build" %sourceFiles%
+javac -d "%releaseDirectory%\build" --release 21 %sourceFiles%
 
 rmdir /s /q "%releaseDirectory%\latest"
 mkdir "%releaseDirectory%\latest"
