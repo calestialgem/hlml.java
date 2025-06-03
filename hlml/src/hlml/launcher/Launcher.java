@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
+import hlml.Values;
 import hlml.builder.Builder;
 import hlml.checker.Checker;
 import hlml.checker.Semantic;
@@ -17,7 +18,7 @@ import picocli.CommandLine.Parameters;
 
 @Command(
   name = "hlml",
-  version = "0.1.0",
+  version = Values.VERSION + "." + Values.TIMESTAMP,
   description = "High Level Mindustry Logic Compiler",
   mixinStandardHelpOptions = true)
 final class Launcher implements Callable<Integer> {
