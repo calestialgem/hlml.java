@@ -45,5 +45,5 @@ cd "%releaseDirectory%\build"
 jar cfe "%releaseDirectory%\latest\hlml.jar" hlml.launcher.Launcher *
 
 cd "%releaseDirectory%\latest"
-7z a -tzip "..\hlml_%version%.%timestamp%.zip" "*"
+7z a -tzip "..\hlml_v%version%_b%timestamp%.zip" "*"
 cd "..\.."
