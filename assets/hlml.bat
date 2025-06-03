@@ -1,1 +1,3 @@
-java -jar "%~dp0\hlml.jar" %*
+@echo off
+
+java -jar "%~dp0hlml.jar" %*
