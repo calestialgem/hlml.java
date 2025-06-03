@@ -7,7 +7,7 @@
       "request": "launch",
       "mainClass": "hlml/hlml.launcher.Launcher",
       "projectName": "hlml",
-      "args": "hlml -I release"
+      "args": "hlml -I assets"
     },
     {
       "type": "java",
