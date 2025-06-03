@@ -180,25 +180,21 @@ public final class Builder {
       }
       case Semantic.While s -> {
         s.variables().forEach(this::build_variable);
-        Register first_condition = build_expression(s.condition());
-        Waypoint loop = program.waypoint();
-        program.instruct(new Instruction.JumpOnTrue(loop, first_condition));
-        stack.pop(first_condition);
-        build_statement(loop_waypoints, s.zero_branch());
-        Waypoint end = program.waypoint();
-        program.instruct(new Instruction.JumpAlways(end));
-        program.define(loop);
-        Waypoint begin = program.waypoint();
-        loop_waypoints.add(new LoopWaypoints(begin, end));
+        Waypoint interleavedEnd = program.waypoint();
+        Waypoint loopBegin = program.waypoint();
+        Waypoint loopEnd = program.waypoint();
+        program.instruct(new Instruction.JumpAlways(interleavedEnd));
+        program.define(loopBegin);
+        build_statement(loop_waypoints, s.interleaved());
+        program.define(interleavedEnd);
+        Register condition = build_expression(s.condition());
+        program.instruct(new Instruction.JumpOnFalse(loopEnd, condition));
+        stack.pop(condition);
+        loop_waypoints.add(new LoopWaypoints(loopBegin, loopEnd));
         build_statement(loop_waypoints, s.loop());
         loop_waypoints.remove(loop_waypoints.size() - 1);
-        program.define(begin);
-        build_statement(loop_waypoints, s.interleaved());
-        Register remaining_conditions = build_expression(s.condition());
-        program
-          .instruct(new Instruction.JumpOnTrue(loop, remaining_conditions));
-        stack.pop(remaining_conditions);
-        program.define(end);
+        program.instruct(new Instruction.JumpAlways(loopBegin));
+        program.define(loopEnd);
       }
       case Semantic.Break s ->
         program

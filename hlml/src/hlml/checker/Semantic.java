@@ -186,8 +186,7 @@ public sealed interface Semantic {
     List<LocalVar> variables,
     Expression condition,
     Optional<Statement> interleaved,
-    Statement loop,
-    Optional<Statement> zero_branch) implements Statement
+    Statement loop) implements Statement
   {
     @Override
     public Set<Name> dependencies() {
@@ -196,8 +195,7 @@ public sealed interface Semantic {
           Sets.union(variables.stream().map(LocalVar::dependencies)),
           condition.dependencies(),
           interleaved.map(Statement::dependencies).orElseGet(Set::of),
-          loop.dependencies(),
-          zero_branch.map(Statement::dependencies).orElseGet(Set::of));
+          loop.dependencies());
     }
   }
 

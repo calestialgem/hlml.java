@@ -197,8 +197,7 @@ public sealed interface Node {
     List<LocalVar> variables,
     Expression condition,
     Optional<Statement> interleaved,
-    Statement loop,
-    Optional<Statement> zero_branch) implements Statement
+    Statement loop) implements Statement
   {
     @Override
     public int first(List<Token> tokens) {
@@ -209,7 +208,6 @@ public sealed interface Node {
 
     @Override
     public int last(List<Token> tokens) {
-      if (zero_branch.isPresent()) { return zero_branch.get().last(tokens); }
       return loop.last(tokens);
     }
   }

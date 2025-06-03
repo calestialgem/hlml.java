@@ -10,18 +10,16 @@ jump 11 always
 op mul _0 inner_variable_test$entrypoint$b inner_variable_test$entrypoint$c
 set inner_variable_test$entrypoint$a _0
 set inner_variable_test$entrypoint$i 0
-op lessThan _1 inner_variable_test$entrypoint$i inner_variable_test$entrypoint$a
-jump 15 equal true _1
-jump 26 always
-op add _1 inner_variable_test$entrypoint$i 1
-set inner_variable_test$entrypoint$j _1
-op lessThan _1 inner_variable_test$entrypoint$j inner_variable_test$entrypoint$a
-jump 20 equal true _1
-jump 23 always
-op add inner_variable_test$entrypoint$j inner_variable_test$entrypoint$j 1
-op lessThan _1 inner_variable_test$entrypoint$j inner_variable_test$entrypoint$a
-jump 20 equal true _1
+jump 14 always
 op add inner_variable_test$entrypoint$i inner_variable_test$entrypoint$i 1
 op lessThan _1 inner_variable_test$entrypoint$i inner_variable_test$entrypoint$a
-jump 15 equal true _1
+jump 24 equal false _1
+op add _1 inner_variable_test$entrypoint$i 1
+set inner_variable_test$entrypoint$j _1
+jump 20 always
+op add inner_variable_test$entrypoint$j inner_variable_test$entrypoint$j 1
+op lessThan _1 inner_variable_test$entrypoint$j inner_variable_test$entrypoint$a
+jump 23 equal false _1
+jump 19 always
+jump 13 always
 end

@@ -269,23 +269,13 @@ public final class Parser {
     }
     Node.Statement loop =
       expect(this::parse_statement, "loop of the while statement");
-    Optional<Node.Statement> zero_branch = Optional.empty();
-    if (parse_token(Token.Else.class).isPresent()) {
-      zero_branch =
-        Optional
-          .of(
-            expect(
-              () -> first_of(this::parse_block, this::parse_if),
-              "zero branch of the while statement"));
-    }
     Node.While while_statement =
       new Node.While(
         label,
         variables,
         condition,
         interleaved,
-        loop,
-        zero_branch);
+        loop);
     return Optional.of(while_statement);
   }
 

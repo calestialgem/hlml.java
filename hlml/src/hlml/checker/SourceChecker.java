@@ -244,18 +244,11 @@ final class SourceChecker {
         Semantic.Statement loop =
           check_statement(inner.create_child(), loops, s.loop());
         loops.remove(loops.size() - 1);
-        Optional<Semantic.Statement> zero_branch = Optional.empty();
-        if (s.zero_branch().isPresent()) {
-          Semantic.Statement checked_branch =
-            check_statement(inner.create_child(), loops, s.zero_branch().get());
-          zero_branch = Optional.of(checked_branch);
-        }
         yield new Semantic.While(
           variables,
           condition,
           interleaved,
-          loop,
-          zero_branch);
+          loop);
       }
       case Node.Break s -> {
         int index = loops.lastIndexOf(s.label().map(Token.Identifier::text));
