@@ -3,3 +3,6 @@
 
 # Java object files.
 *.class
+
+# Release artifacts.
+releases/
