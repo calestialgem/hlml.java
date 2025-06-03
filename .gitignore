@@ -4,6 +4,7 @@
 # Java object files.
 *.class
 
-# Release artifacts.
+# Build artifacts.
+build/
 releases/
 hlml/src/hlml/Values.java

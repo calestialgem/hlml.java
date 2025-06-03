@@ -5,6 +5,7 @@ setlocal enabledelayedexpansion
 set projectDirectory=%~dp0..
 set valueDirectory=%projectDirectory%\values
 set sourceDirectory=%projectDirectory%\hlml\src
+set buildDirectory=%projectDirectory%\build
 set assetDirectory=%projectDirectory%\assets
 set releaseDirectory=%projectDirectory%\releases
 set valueSourceFile=%sourceDirectory%\hlml\Values.java
@@ -31,17 +32,16 @@ echo   /** Prevents instantiating this class. */>>%valueSourceFile%
 echo   private Values() {}>>%valueSourceFile%
 echo }>>%valueSourceFile%
 
-rmdir /s /q "%releaseDirectory%\build"
-mkdir "%releaseDirectory%\build"
+mkdir "%buildDirectory%"
 for /r %sourceDirectory% %%i in (*) do (
     set sourceFiles=!sourceFiles! %%i
 )
-javac -d "%releaseDirectory%\build" --release 21 %sourceFiles%
+javac -d "%buildDirectory%" --release 21 %sourceFiles%
 
 rmdir /s /q "%releaseDirectory%\latest"
 mkdir "%releaseDirectory%\latest"
 xcopy /v /e "%assetDirectory%" "%releaseDirectory%\latest"
-cd "%releaseDirectory%\build"
+cd "%buildDirectory%"
 jar cfe "%releaseDirectory%\latest\hlml.jar" hlml.launcher.Launcher *
 
 cd "%releaseDirectory%\latest"
