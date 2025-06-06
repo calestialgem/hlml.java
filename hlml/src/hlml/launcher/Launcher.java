@@ -18,7 +18,7 @@ import picocli.CommandLine.Parameters;
 
 @Command(
   name = "hlml",
-  version = Values.VERSION + "." + Values.TIMESTAMP,
+  version = "v" + Values.VERSION + "_b" + Values.TIMESTAMP,
   description = "High Level Mindustry Logic Compiler",
   mixinStandardHelpOptions = true)
 final class Launcher implements Callable<Integer> {
